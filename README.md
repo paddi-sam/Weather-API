@@ -1,0 +1,1 @@
+Where you see "API" is where you put your API key you get from weatherapi.com
