@@ -1,5 +1,6 @@
 import json
 import requests
+from config import API_KEY as API
 
 cities = ["london", "Paris", "New York", "Los Angeles", "Dubai", "Tokyo", "Rome"]
 
@@ -10,8 +11,6 @@ ascii = r'''
  \        /\  ___/ / __ \|  | |   Y  \  ___/|  | \/  |    |   \  ___/|  |_> >  <_> )  | \/|  |  
   \__/\  /  \___  >____  /__| |___|  /\___  >__|     |____|_  /\___  >   __/ \____/|__|   |__|  
        \/       \/     \/          \/     \/                \/     \/|__|                       '''
-
-print(ascii)
 
 def user_menu():
     '''
@@ -67,13 +66,13 @@ def convert_to_city(userChoice):
     elif userChoice == 4:
         textCity = "LA"
 
-    convertedURL = f"http://api.weatherapi.com/v1/current.json?key=API&q={textCity}&aqi=no"
+    convertedURL = f"http://api.weatherapi.com/v1/current.json?key={API}&q={textCity}&aqi=no"
     
     return convertedURL
 
 def make_request(convertedURL):
     
-    headers = {"Authorization": "Bearer API"}
+    headers = {"Authorization": f"Bearer {API}"}
     response = requests.get(convertedURL, headers=headers)
     response = response.text
     
@@ -110,13 +109,12 @@ def clean_json(JSON):
             
     return cleaned_data
     
-
 def main():
 
+    print(ascii)
     user_menu()
     userChoice = user_input()
     convertedURL = convert_to_city(userChoice)
     JSON = make_request(convertedURL)
-    clean_json(JSON)    
-
-main()
+    final_json = clean_json(JSON)
+    return final_json
